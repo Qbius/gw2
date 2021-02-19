@@ -60,19 +60,19 @@ const recommended = [
 ];
 
 const start = new Date(2021, 1, 10, 1, 0, 0);
-function dailies() {
+export function dailies() {
     const index = Math.floor(((new Date() - start) / 1000 / 60 / 60) / 24) % daily.length;
     console.log(new Date() - start);
     return [daily[index], recommended[index]];
 }
 
-function breakdown(which, dailies, recommended) {
+export function breakdown(which, dailies, recommended) {
     const ds = dailies.map(name => all[name]).flat();
     const rs = recommended;
     const flag = scale => ((ds.indexOf(scale) !== -1) ? 'D' : '') + ((rs.indexOf(scale) !== -1) ? 'R' : '');
 
     let breakpoints = new Set();
-    let allagony = [...Array(151).keys()].map(_ => ['X', 'X', 'X', 'X', 'X', 'X']);
+    let allagony = [...Array(151).keys()].map(_ => [['X', ''], ['X', ''], ['X', ''], ['X', ''], ['X', ''], ['X', '']]);
     which.forEach((f, index) => {
         if (typeof f === 'string') {
             all[f].forEach(scale => {
@@ -87,10 +87,10 @@ function breakdown(which, dailies, recommended) {
             allagony[ar][index] = [f, flag(f)];
         }
     });
-    let state = ['X', 'X', 'X', 'X', 'X', 'X'];
+    let state = [['X', ''], ['X', ''], ['X', ''], ['X', ''], ['X', ''], ['X', '']];
     return Array.from(breakpoints).sort((a, b) => a - b).map(breakpoint => {
         allagony[breakpoint].forEach((status, index) => {
-            if (status !== 'X') {
+            if (JSON.stringify(status) !== JSON.stringify(['X', ''])) {
                 state[index] = status;
             }
         });
@@ -99,7 +99,7 @@ function breakdown(which, dailies, recommended) {
     return result;
 }
 
-function rewards(scale, flag) {
+export function rewards(scale, flag) {
     if (scale === 'X') return [0, 0, 0, 0, 0, 0];
 
     const daily = flag.indexOf('D') !== -1;
