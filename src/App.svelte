@@ -1,6 +1,4 @@
 <script>
-	export let name;
-
 	import {dailies, breakdown, rewards} from './fractals.js';
 
 	const[ds, rs] = dailies();
@@ -15,7 +13,13 @@
 </script>
 
 <main>
-	<div style="margin: auto; display: flex; flex-direction: column; width: 800px;">
+	<div style="margin: auto; display: flex; flex-direction: column; align-items: center; width: 1200px;">
+		<div style="display: flex;">
+			<span class="cellka">AR</span>
+			{#each selected as sel}
+				<span class="cellka" style="font-size: 10px;">{sel}</span>
+			{/each}
+		</div>
 		{#each breakdown([...ds, ...rs], ds, rs) as [ar, set]}
 			<div style="display: flex;">
 				<span class="cellka" style="background-color: yellow">{ar}</span>
@@ -51,6 +55,7 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		align-items: center;
 	}
 
 	@media (min-width: 640px) {
