@@ -5,10 +5,8 @@
 	let selected = [...ds, ...rs];
 
 	function set_to_rewards(set) {
-		return set.map(([ff, fl]) => rewards(ff, fl)).reduce(([o1, t1, th1, f1, fi1, s1], [o2, t2, th2, f2, fi2, s2]) => {
-			let rews = [Number(o1) + Number(o2), t1 + t2, th1 + th2, f1 + f2, fi1 + fi2, s1 + s2];
-			return `${rews[0]}Relics ${rews[1]}Pristine ${rews[2]}Encryptions ${rews[3]}Keys ${rews[4]}agony ${rews[5]}Silvers`;
-		}, [0, 0, 0, 0, 0, 0]);
+		let rews = set.map(([ff, fl]) => rewards(ff, fl)).reduce((a, b) => [...Array(Math.min(a.length, b.length)).keys()].map(i => Number(a[i]) + Number(b[i])), [0, 0, 0, 0, 0, 0]);
+		return `${rews[0]}Relics ${rews[1]}Pristine ${rews[2]}Encryptions ${rews[3]}Keys ${rews[4]}agony ${rews[5]}Silvers`;
 	}
 </script>
 
