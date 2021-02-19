@@ -19,6 +19,7 @@
 			{#each selected as sel}
 				<span class="cellka" style="font-size: 10px;">{sel}</span>
 			{/each}
+			<div style="width: 500px"></div>
 		</div>
 		{#each breakdown([...ds, ...rs], ds, rs) as [ar, set]}
 			<div style="display: flex;">
