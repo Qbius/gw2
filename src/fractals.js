@@ -1,6 +1,7 @@
 const minimum_ar = scale => (scale < 20) ? 0 : Math.ceil(((scale * 2.136 - 33) - 1) / 1.2);
 
 const all = {
+    "Aetherblade": [14, 46, 65, 71, 96],
     "Aquatic Ruins": [7, 26, 61, 76],
     "Captain Mai Trin Boss": [18, 42, 72, 95],
     "Chaos": [13, 30, 38, 63, 88, 97],
@@ -115,4 +116,19 @@ export function rewards(scale, flag) {
     const resonating = daily ? [1, 3, 6, 10][tier - 1] : 0;
     
     return [relics, pristine, encryptions, keys, agony, resonating];
+}
+
+const shortexceptions = {
+    "Captain Mai Trin Boss": 'Mai',
+    "Shattered Observatory": 'Sh',
+}
+export function shortname(fractal) {
+    if (fractal in shortexceptions) return shortexceptions[fractal];
+    if (typeof fractal !== 'string') return fractal;
+
+    return (fractal.indexOf(' ') !== -1) ? [...(' ' + fractal).matchAll(/ ./g)].map(m => m[0][1]).join('') : fractal.slice(0, 2);
+}
+
+export function name_by_scale(scale) {
+    return Object.values(all).some(arr => arr.indexOf(scale) !== -1) ? Object.entries(all).find(([name, arr]) => arr.indexOf(scale) !== -1)[0] : '';
 }
