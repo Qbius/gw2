@@ -1,6 +1,6 @@
 const minimum_ar = scale => (scale < 20) ? 0 : Math.ceil(((scale * 2.136 - 33) - 1) / 1.2);
 
-const all = {
+export const all = {
     "Aetherblade": [14, 46, 65, 71, 96],
     "Aquatic Ruins": [7, 26, 61, 76],
     "Captain Mai Trin Boss": [18, 42, 72, 95],
@@ -73,7 +73,7 @@ export function breakdown(which, dailies, recommended) {
     const flag = scale => ((ds.indexOf(scale) !== -1) ? 'D' : '') + ((rs.indexOf(scale) !== -1) ? 'R' : '');
 
     let breakpoints = new Set();
-    let allagony = [...Array(151).keys()].map(_ => [['X', ''], ['X', ''], ['X', ''], ['X', ''], ['X', ''], ['X', '']]);
+    let allagony = [...Array(151).keys()].map(_ => [...Array(which.length).keys()].map(_ => ['X', '']));
     which.forEach((f, index) => {
         if (typeof f === 'string') {
             all[f].forEach(scale => {
@@ -88,7 +88,7 @@ export function breakdown(which, dailies, recommended) {
             allagony[ar][index] = [f, flag(f)];
         }
     });
-    let state = [['X', ''], ['X', ''], ['X', ''], ['X', ''], ['X', ''], ['X', '']];
+    let state = [...Array(which.length).keys()].map(_ => ['X', '']);
     return Array.from(breakpoints).sort((a, b) => a - b).map(breakpoint => {
         allagony[breakpoint].forEach((status, index) => {
             if (JSON.stringify(status) !== JSON.stringify(['X', ''])) {
