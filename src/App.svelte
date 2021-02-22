@@ -36,12 +36,19 @@
 <main>
 	<div class="bg-wrap"></div>
 	<div style="margin: auto; display: flex; flex-direction: column; align-items: flex-start; min-width: 413px; max-width: 413px;">
-		<div style="display: flex;">
+		<div style="display: flex; align-items: flex-end;">
 			{#if (parsed_names.length + parsed_scales.length) > 0}
-				<span class="cellka text-cellka header-cellka">AR</span>
+				<span style="height: 25px;" class="cellka text-cellka header-cellka"><b>AR</b></span>
 			{/if}
 			{#each selected as sel}
-				<span class="cellka text-cellka header-cellka" title={(typeof sel === 'string' ? sel : name_by_scale(sel))} style="font-size: 6px; word-wrap: break-word; width: 30px;">{sel}</span>
+				{#if typeof sel === 'string'}
+					<span style="height: 180px;" class="vertical-text cellka text-cellka header-cellka" title={name_by_scale(sel)}><b style="margin-bottom: 10px;">{sel}</b></span>
+				{:else}
+					<div style="height: 180px;" class="cellka text-cellka header-cellka" title={sel}>
+						<b style="margin-bottom: 10px;">{sel}</b>
+						<b class="vertical-text" style="flex: 1; margin-bottom: 10px;">{name_by_scale(sel)}</b>
+					</div>
+				{/if}
 			{/each}
 			<div class="reward-bar"></div>
 		</div>
@@ -144,6 +151,13 @@
 		justify-content: center;
 	}
 
+	.vertical-text {
+		writing-mode: vertical-lr;
+		text-orientation: upright;
+		letter-spacing: -5px;
+		line-height: 99%;
+	}
+
 	.scaleon {
 		background-color: #0fcfc6;
 	}
@@ -158,6 +172,10 @@
 	.header-cellka {
 		background-color: rgb(134, 153, 155);
 		color: rgb(44, 43, 43);
+		height: fit-content;
+		font-size: 12px;
+		width: 30px;
+		word-wrap: break-word;
 	}
 
 	.scale-text-container {
