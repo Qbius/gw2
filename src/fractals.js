@@ -62,8 +62,7 @@ const recommended = [
 
 const start = new Date(2021, 1, 10, 1, 0, 0);
 export function dailies() {
-    const index = Math.floor(((new Date() - start) / 1000 / 60 / 60) / 24) % daily.length;
-    console.log(new Date() - start);
+    const index = Math.ceil(((new Date() - start) / 1000 / 60 / 60) / 24) % daily.length;
     return [daily[index], recommended[index]];
 }
 
