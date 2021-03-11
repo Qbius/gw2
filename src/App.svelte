@@ -31,9 +31,22 @@
 	$: bkdwn = breakdown(selected, ds, rs);
 	$: allrews = bkdwn.map(([_, set]) => set.map(([ff, fl]) => rewards(ff, fl)).reduce((a, b) => [...Array(Math.min(a.length, b.length)).keys()].map(i => Number(a[i]) + Number(b[i])), [0, 0, 0, 0, 0, 0]));
 
+	async function get_dailies() {		
+		const response = await fetch('/api/dailies');
+		if (response.ok) {
+			const json = await response.json();
+			return json;
+		}
+		else
+			throw new Error('Error loading dailies info');
+	}
+
 </script>
 
 <main>
+	{#await get_dailies()}
+		<h1>Loading...</h1>
+	
 	<div class="bg-wrap"></div>
 	<div style="margin: auto; display: flex; flex-direction: column; align-items: flex-start; min-width: 413px; max-width: 413px;">
 		<div style="display: flex; align-items: flex-end;">
