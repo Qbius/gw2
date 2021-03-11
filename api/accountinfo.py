@@ -57,9 +57,9 @@ class handler(BaseHTTPRequestHandler):
         error = ''
 
         if 'access_token' not in parameters:
-            error = 'Required parameter "access_token" not found'
+            error = "Required parameter 'access_token' not found"
         elif len(parameters['access_token']) < 1 or not match(r'\w{8}\-\w{4}\-\w{4}\-\w{4}\-\w{20}\-\w{4}\-\w{4}\-\w{4}\-\w{12}', parameters['access_token'][0]):
-            error = 'Invalid access token'
+            error = "Invalid access token"
 
         if error:
             self.send_response(400)
