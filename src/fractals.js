@@ -1,4 +1,4 @@
-const minimum_ar = scale => (scale < 20) ? 0 : Math.ceil(((scale * 2.136 - 33) - 1) / 1.2);
+export const minimum_ar = scale => (scale < 20) ? 0 : Math.ceil(((scale * 2.136 - 33) - 1) / 1.2);
 
 export const all = {
     "Aetherblade": [14, 46, 65, 71, 96],
@@ -117,6 +117,36 @@ export function rewards(scale, flag) {
     return [relics, pristine, encryptions, keys, agony, resonating];
 }
 
+export function name_by_scale(scale) {
+    return Object.values(all).some(arr => arr.indexOf(scale) !== -1) ? Object.entries(all).find(([name, arr]) => arr.indexOf(scale) !== -1)[0] : '';
+}
+
+export function tier_from_scale(scale) {
+    return Math.floor((scale - 1) / 25) + 1;
+}
+
+export function rewards2(scale, dailies) {
+    if (scale === undefined) return [0, 0, 0, 0, 0, 0];
+    console.log(scale);
+    const daily = dailies.names.indexOf(name_by_scale(scale)) !== -1;
+    const recommended = dailies.scales.indexOf(scale) !== -1;
+    const tier = tier_from_scale(scale);
+    const nordorch = all["Nightmare"].indexOf(scale) !== -1 || all["Deepstone"].indexOf(scale) !== -1 || all["Chaos"].indexOf(scale) !== -1;
+
+    const relics = (scale <= 50) ? Math.floor((scale - 1) / 5) + 5 : Math.floor((scale - 51) / 10) + 15;
+    const pristine = daily ? tier : recommended ? 1 : 0;
+    const encryptions = Math.floor((scale - 1) / 20) + 2 + (nordorch ? ((scale > 40) ? 2 : 1) : 0) + (recommended ? ((tier === 1) ? 2 : 3) : 0);
+    const keys = daily ? tier : 0;
+    const agony = daily ? [1, 2, 4, 6][tier - 1] : 0 + (recommended ? ((tier === 1) ? 3 : 5) : 0);
+    const resonating = daily ? [1, 3, 6, 10][tier - 1] : 0;
+    
+    return [relics, pristine, encryptions, keys, agony, resonating];
+}
+
+export function combined_rewards(scales, dailies) {
+    return scales.map(scale => rewards2(scale, dailies)).reduce((acc, ele) => [...Array(6).keys()].map(i => acc[i] + ele[i]), [0, 0, 0, 0, 0, 0]);
+}
+
 const shortexceptions = {
     "Captain Mai Trin Boss": 'Mai',
     "Shattered Observatory": 'Sh',
@@ -126,8 +156,4 @@ export function shortname(fractal) {
     if (typeof fractal !== 'string') return fractal;
 
     return (fractal.indexOf(' ') !== -1) ? [...(' ' + fractal).matchAll(/ ./g)].map(m => m[0][1]).join('') : fractal.slice(0, 2);
-}
-
-export function name_by_scale(scale) {
-    return Object.values(all).some(arr => arr.indexOf(scale) !== -1) ? Object.entries(all).find(([name, arr]) => arr.indexOf(scale) !== -1)[0] : '';
 }
