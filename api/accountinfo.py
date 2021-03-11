@@ -41,7 +41,7 @@ def get_characters(token):
                 piece['sigils'] = [item_info[sigil]['details']['infix_upgrade']['buff']['description'] for sigil in sigils]
             eq.append((slot, piece))
 
-        result[character['name']] = eq
+        result[character['name']] = dict(eq)
     return result
 
 def get_fractal_info(token):
