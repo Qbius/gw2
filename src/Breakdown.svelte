@@ -32,7 +32,7 @@
     </div>
     {#each breakdown as [ar, set], m_index}
         <div style="display: flex;" class={(heavy_breakpoints.indexOf(ar) !== -1) ? 'tier-jump': ''}>
-            <span class="cellka text-cellka" style="background-color: #BDB76B"><b>{ar}</b></span>
+            <span class="cellka text-cellka" style={(heavy_breakpoints.indexOf(ar) !== -1) ? 'background-color: black; color: #BDB76B; border: 2px solid black;' : 'background-color: #BDB76B;'}><b>{ar}</b></span>
             {#each set as scale, index}
                 <div class={'cellka text-cellka ' + (!scale ? 'nono' : 'yesyes')}>
                     <div class={(!scale || typeof selected[index] !== 'string') ? '' : 'scale-text-container'}>
@@ -43,7 +43,7 @@
                     </div>
                 </div>
             {/each}
-            <div class="cellka reward-bar" style="background-color: #39918c;">
+            <div class="cellka reward-bar" style={(heavy_breakpoints.indexOf(ar) !== -1) ? 'background-color: #4da39f;': 'background-color: #39918c;'}>
                 <div style="display: flex; flex-direction: column;">
                     <div style="display: flex; align-items: center;">
                         <div class="reward-count"><span class="reward-text"><b>{allrews[m_index][0]}</b></span></div><img class="reward-icon" alt="relics" src="/relic.png">

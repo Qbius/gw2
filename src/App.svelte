@@ -1,5 +1,6 @@
 <script>
 	import {wait_for_dailies} from './stores.js';
+	import Dailies from './Dailies.svelte';
 	import Breakdown from './Breakdown.svelte';
 </script>
 
@@ -8,6 +9,7 @@
 	{#await wait_for_dailies()}
 		<h1>Loading...</h1>
 	{:then dailies}
+		<Dailies {dailies}/>
 		<Breakdown {dailies}/>
 	{/await}
 </main>
