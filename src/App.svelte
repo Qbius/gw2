@@ -44,8 +44,8 @@
 </script>
 
 <main>
-	{#await get_dailies()}
-		<h1>Loading...</h1>
+	<!-- {#await get_dailies()}
+		<h1>Loading...</h1> -->
 	
 	<div class="bg-wrap"></div>
 	<div style="margin: auto; display: flex; flex-direction: column; align-items: flex-start; min-width: 413px; max-width: 413px;">
