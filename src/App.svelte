@@ -28,7 +28,6 @@
 <style>
 	main {
 		text-align: center;
-		max-width: 240px;
 		width: 100%;
 		height: 100%;
 		margin: 0 auto;
@@ -62,9 +61,7 @@
 		background-position: 50% 50%;
 	}
 
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
+	@media only screen and (max-width: 760px) {
+
 	}
 </style>
