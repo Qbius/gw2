@@ -6,22 +6,33 @@
         return `/fractals/${name.toLowerCase().replaceAll(' ', '_')}.png`;
     }
 
+    function discretize_url(name) {
+        const exceptions = {
+            "Urban Battleground": "Urban Battlegrounds"
+        }
+        const proper_name = (name in exceptions) ? exceptions[name] : name;
+        return `https://discretize.eu/fractals/${proper_name.toLowerCase().replaceAll(' ', '-')}`;
+    }
+
     $: names = dailies.names;
     $: scales = dailies.scales;
-
 
 </script>
 
 <div class="component">
     {#each names as name}
+    <a href={discretize_url(name)} target="_blank">
         <div class="daily-fractal" style={`display: flex; justify-content: center; background-image: url(${filename(name)});`}>
             <span style="margin: auto;">{name}</span>
         </div>
+    </a>
     {/each}
     {#each scales as scale}
+    <a href={`https://discretize.eu/fractals/${discretize_url(name_by_scale(scale))}`} target="_blank">
         <div class="daily-fractal" style={`display: flex; justify-content: center; background-image: url(${filename(name_by_scale(scale))});`}>
             <span style="margin: auto;">Scale {scale} - {name_by_scale(scale)}</span>
         </div>
+    </a>
     {/each}
 </div>
 

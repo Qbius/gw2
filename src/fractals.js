@@ -127,7 +127,6 @@ export function tier_from_scale(scale) {
 
 export function rewards2(scale, dailies) {
     if (scale === undefined) return [0, 0, 0, 0, 0, 0];
-    console.log(scale);
     const daily = dailies.names.indexOf(name_by_scale(scale)) !== -1;
     const recommended = dailies.scales.indexOf(scale) !== -1;
     const tier = tier_from_scale(scale);

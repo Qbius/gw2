@@ -1,10 +1,8 @@
 import {writable} from 'svelte/store';
 import * as dailies_ex from './examples/dailies.json';
 import * as account_ex from './examples/account_info.json';
-import * as skins_ex from './examples/skins.json';
 
 export const localhost = location.hostname === "localhost";
-export const skins = skins_ex;
 
 export const dailies = writable({});
 export const account_info = writable({});
@@ -25,16 +23,14 @@ export async function wait_for_dailies() {
 }
 
 export async function wait_for_account_info(token) {
-
-    if ($account_info === {} && localhost) {
-        account_info.set(account_ex);
-        return;
+    if (localhost) {
+        return account_ex;
     }
-    else if ($account_info === {}) {
+    else {
         const response = await fetch(`/api/accountinfo?access_token=${token}`);
         if (response.ok) {
             const json = await response.json();
-            account_info.set(json);
+            return json;
         }
         else
             throw new Error('Error loading account info');

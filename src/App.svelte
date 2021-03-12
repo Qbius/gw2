@@ -2,6 +2,9 @@
 	import {wait_for_dailies} from './stores.js';
 	import Dailies from './Dailies.svelte';
 	import Breakdown from './Breakdown.svelte';
+	import Eq from './Eq.svelte';
+
+	let token = '';
 </script>
 
 <main>
@@ -9,8 +12,16 @@
 	{#await wait_for_dailies()}
 		<h1>Loading...</h1>
 	{:then dailies}
-		<Dailies {dailies}/>
-		<Breakdown {dailies}/>
+		<div class="separator">
+			<Dailies {dailies}/>
+		</div>
+		<div class="separator">
+			<!-- <input bind:value={token} style="width: 400px; justify-self: flex-start;"> -->
+			<Breakdown {dailies}/>
+		</div>
+		<!-- <div class="separator">
+			<Eq {token}/>
+		</div> -->
 	{/await}
 </main>
 
@@ -25,6 +36,15 @@
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
+	}
+
+	.separator {
+		flex: 1;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
 	}
 
 	.bg-wrap {
