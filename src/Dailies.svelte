@@ -3,7 +3,7 @@
     export let dailies;
 
     function filename(name) {
-        return `/fractals/${name.toLowerCase().replace(' ', '_')}.png`;
+        return `/fractals/${name.toLowerCase().replaceAll(' ', '_')}.png`;
     }
 
     $: names = dailies.names;
@@ -39,7 +39,7 @@
         margin: 1px;
         height: 50px;
 
-        font-size: 24px;
+        font-size: 22px;
         color: white;
         text-shadow: 0px 0px 3px black, 0 0 1em black, 0 0 0.2em black;
     }
