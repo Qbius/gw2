@@ -10,7 +10,7 @@ class handler(BaseHTTPRequestHandler):
             all_dailies = loads(urlopen('https://api.guildwars2.com/v2/achievements/daily').read())
             fractal_dailies_ids = [str(frac['id']) for frac in all_dailies['fractals']]
             fractal_dailies_info = loads(urlopen('https://api.guildwars2.com/v2/achievements?ids=' + ','.join(fractal_dailies_ids)).read())
-            names = [match(r'(?:Daily Recommended Fractal—Scale|Daily Tier \d) (\d+|[a-zA-Z\ ]+)', frac['name']).groups()[0] for frac in fractal_dailies_info]
+            names = [match(r"(?:Daily Recommended Fractal—Scale|Daily Tier \d) (\d+|[a-zA-Z\ ']+)", frac['name']).groups()[0] for frac in fractal_dailies_info]
             result = {
                 'scales': [int(frac) for frac in names if frac.isdigit()],
                 'names': list(set(frac for frac in names if not frac.isdigit())),
