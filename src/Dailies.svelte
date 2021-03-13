@@ -3,7 +3,7 @@
     export let dailies;
 
     function filename(name) {
-        return `/fractals/${name.toLowerCase().replaceAll(' ', '_')}.png`;
+        return `/fractals/${name.toLowerCase().replaceAll(' ', '_').replaceAll("'", '')}.png`;
     }
 
     function discretize_url(name) {
