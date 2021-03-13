@@ -12,7 +12,7 @@
             "Urban Battleground": "Urban Battlegrounds",
         }
         const proper_name = (name in exceptions) ? exceptions[name] : name;
-        return `https://discretize.eu/fractals/${proper_name.toLowerCase().replaceAll(' ', '-')}`;
+        return `https://discretize.eu/fractals/${proper_name.toLowerCase().replaceAll(' ', '-').replaceAll("'", '')}`;
     }
 
     $: names = dailies.names;
