@@ -8,7 +8,7 @@
     $: selected = [...names, ...scales];
     $: breakpoints = Array.from(new Set(selected.map(f => (typeof f === 'string') ? all[f] : f).flat().map(minimum_ar))).sort((a, b) => a - b);
     $: breakdown = breakpoints.map(breakpoint => [breakpoint, selected.map(f => (typeof f === 'string') ? JSON.parse(JSON.stringify(all[f])).reverse().find(s => minimum_ar(s) <= breakpoint) : ((minimum_ar(f) <= breakpoint) ? f : undefined))]);
-    $: heavy_breakpoints = [...Array(4).keys()].map(i => Math.max(...[...names.map(n => minimum_ar(all[n].find(s => tier_from_scale(s) === (i + 1))), ...scales.filter(s => tier_from_scale(s) <= (i + 1)).map(minimum_ar))]));
+    $: heavy_breakpoints = [...Array(4).keys()].map(i => Math.max(...[...names.map(n => minimum_ar(all[n].find(s => tier_from_scale(s) === (i + 1)))), ...scales.filter(s => tier_from_scale(s) <= (i + 1)).map(minimum_ar)]));
     $: allrews = breakdown.map(([_, scales]) => combined_rewards(scales, dailies));
 
 </script>
