@@ -28,7 +28,7 @@ def get_characters(token):
             return ar
 
         implicit_stats_items = [piece for piece in character['equipment'] if 'stats' not in piece]
-        implicit_eq = [(piece['slot'], {'stats': {attrs['attribute']: attrs['modifier'] for attrs in item_info[piece['id']]['details']['infix_upgrade']['attributes']}, 'info': piece, 'icon': item_info[piece['id']]['icon']}) for piece in implicit_stats_items if 'infix_upgrade' in item_info[piece['id']]['details']]
+        implicit_eq = [(piece['slot'], {'stats': {attrs['attribute']: attrs['modifier'] for attrs in item_info[piece['id']]['details']['infix_upgrade']['attributes']}, 'info': piece, 'icon': item_info[piece['id']]['icon'], 'rarity': item_info[piece['id']].get('rarity', None), 'adj': item_info[piece['id']]['details'].get('attribute_adjustment', None)}) for piece in implicit_stats_items if 'infix_upgrade' in item_info[piece['id']]['details']]
         
         eq = []
         for slot, piece in [*explicit_eq, *implicit_eq]:
