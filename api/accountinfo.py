@@ -17,7 +17,7 @@ def get_characters(token):
 
     result = {}
     for character in characters:
-        explicit_eq = [(piece['slot'], {'stats': piece['stats']['attributes'], 'info': piece}) for piece in character['equipment'] if 'stats' in piece]
+        explicit_eq = [(piece['slot'], {'stats': piece['stats']['attributes'], 'info': piece, 'icon': item_info[piece['id']]['icon'], 'rarity': item_info[piece['id']].get('rarity', None), 'adj': item_info[piece['id']].get('attribute_adjustment', None)}) for piece in character['equipment'] if 'stats' in piece]
 
         def get_ar(piece):
             ar = 0
@@ -28,7 +28,7 @@ def get_characters(token):
             return ar
 
         implicit_stats_items = [piece for piece in character['equipment'] if 'stats' not in piece]
-        implicit_eq = [(piece['slot'], {'stats': {attrs['attribute']: attrs['modifier'] for attrs in item_info[piece['id']]['details']['infix_upgrade']['attributes']}, 'info': piece}) for piece in implicit_stats_items if 'infix_upgrade' in item_info[piece['id']]['details']]
+        implicit_eq = [(piece['slot'], {'stats': {attrs['attribute']: attrs['modifier'] for attrs in item_info[piece['id']]['details']['infix_upgrade']['attributes']}, 'info': piece, 'icon': item_info[piece['id']]['icon']}) for piece in implicit_stats_items if 'infix_upgrade' in item_info[piece['id']]['details']]
         
         eq = []
         for slot, piece in [*explicit_eq, *implicit_eq]:
@@ -43,13 +43,6 @@ def get_characters(token):
 
         result[character['name']] = dict(eq)
     return result
-
-def get_fractal_info(token):
-    account = api('account', access_token=token)
-    initiate, adept, expert, master  = api('account/achievements', ids='2965,2894,2217,2415', access_token=token)
-    done = [*map(lambda n: n, initiate['bits']), *map(lambda n: 25 + n, adept['bits']), *map(lambda n: 50 + n, expert['bits']), *map(lambda n: 75 + n, master['bits'])]
-    not_done = [i + 1 for i in range(100) if i not in done]
-    return {'level': account['fractal_level'], 'missing': not_done}
 
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -68,11 +61,7 @@ class handler(BaseHTTPRequestHandler):
             self.wfile.write(dumps({'error': error}).encode())
         else:
             access_token = parameters['access_token'][0]
-            res = {
-                'characters': get_characters(access_token),
-                'fractal_info': get_fractal_info(access_token),
-            }
             self.send_response(200)
             self.send_header('Content-type', 'application/json')
             self.end_headers()
-            self.wfile.write(dumps(res).encode())
+            self.wfile.write(dumps(get_characters(access_token)).encode())
