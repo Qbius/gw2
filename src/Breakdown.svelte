@@ -72,8 +72,6 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    min-width: 413px;
-    max-width: 413px;
 }
 
 .tier-jump {

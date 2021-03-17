@@ -1,6 +1,11 @@
 <script>
-    import {name_by_scale} from './fractals';
+    import {all, name_by_scale, tier_from_scale} from './fractals';
     export let dailies;
+    export let fractal_info = undefined;
+
+    function ensure_name(fractal) {
+        return (typeof fractal === 'string') ? fractal : name_by_scale(fractal);
+    }
 
     function filename(name) {
         return `/fractals/${name.toLowerCase().replaceAll(' ', '_').replaceAll("'", '')}.png`;
@@ -15,23 +20,39 @@
         return `https://discretize.eu/fractals/${proper_name.toLowerCase().replaceAll(' ', '-').replaceAll("'", '')}`;
     }
 
-    $: names = dailies.names;
-    $: scales = dailies.scales;
+    function gather_missing(fractal, info) {
+        if (!info) return;
+        console.log(info);
+
+        const scales = (typeof fractal === 'number') ? [fractal] : all[fractal];
+        return scales.filter(scale => info.missing.indexOf(scale) !== -1);
+    }
+
+    $: fractals = [...dailies.names, ...dailies.scales];
+    $: all_missing = fractals.map(fractal => gather_missing(fractal, fractal_info));
 
 </script>
 
 <div class="component">
-    {#each names as name}
-    <a href={discretize_url(name)} target="_blank">
-        <div class="daily-fractal" style={`display: flex; justify-content: center; background-image: url(${filename(name)});`}>
-            <span style="margin: auto;">{name}</span>
+    {#each fractals as fractal, index}
+    {#if fractal_info && all_missing[index] && all_missing[index].length > 0}
+        <div style="display: flex;">
+            <span>Missing</span>
+            {#if typeof fractal === 'string'}
+            {#each all_missing[index] as missing}
+            <span>T{tier_from_scale(missing)}: {missing}</span>
+            {/each}
+            {/if}
         </div>
-    </a>
-    {/each}
-    {#each scales as scale}
-    <a href={discretize_url(name_by_scale(scale))} target="_blank">
-        <div class="daily-fractal" style={`display: flex; justify-content: center; background-image: url(${filename(name_by_scale(scale))});`}>
-            <span style="margin: auto;">Scale {scale} - {name_by_scale(scale)}</span>
+    {/if}
+    <a href={discretize_url(ensure_name(fractal))} target="_blank">
+        <div class="daily-fractal" style={`display: flex; justify-content: center; background-image: url(${filename(ensure_name(fractal))});`}>
+            <span style="margin: auto;">
+                {#if (typeof fractal === 'number')}
+                    Scale {fractal} - 
+                {/if}
+                {ensure_name(fractal)}
+            </span>
         </div>
     </a>
     {/each}

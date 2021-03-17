@@ -1,8 +1,8 @@
 <script>
-	import {wait_for_dailies} from './stores.js';
+	import {wait_for_dailies, wait_for_fractal_info, wait_for_account_info} from './stores.js';
 	import Dailies from './Dailies.svelte';
 	import Breakdown from './Breakdown.svelte';
-	import Eq from './Eq.svelte';
+	import Eq from './Eq/Eq.svelte';
 
 	let token = '';
 </script>
@@ -13,15 +13,28 @@
 		<h1>Loading...</h1>
 	{:then dailies}
 		<div class="separator">
-			<Dailies {dailies}/>
+			{#await wait_for_fractal_info(token)}
+				<Dailies {dailies}/>
+			{:then fractal_info}
+				<span style="margin-top: 5px; margin-left: 5px; text-shadow: 0px 0px 3px black, 0 0 1em black, 0 0 0.2em black; font-size: 32px; color: white; align-self: flex-start; justify-self: flex-start;">Fractal level {fractal_info.level}</span>
+				<Dailies {dailies} {fractal_info}/>
+			{:catch}
+				<Dailies {dailies}/>	
+			{/await}
 		</div>
 		<div class="separator">
-			<!-- <input bind:value={token} style="width: 400px; justify-self: flex-start;"> -->
+			<input bind:value={token} style="width: 400px; justify-self: flex-start;">
 			<Breakdown {dailies}/>
 		</div>
-		<!-- <div class="separator">
-			<Eq {token}/>
-		</div> -->
+		<div class="separator">
+			{#await wait_for_account_info(token)}
+				<Eq/>
+			{:then account_info}
+				<Eq {account_info}/>
+			{:catch}	
+				<Eq/>
+			{/await}
+		</div>
 	{/await}
 </main>
 
@@ -48,7 +61,7 @@
 
 	.bg-wrap {
 		position: absolute;
-		z-index: -2;
+		z-index: -100;
 		filter: blur(5px);
 		overflow: hidden;
 		object-fit: cover;

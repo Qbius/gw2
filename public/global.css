@@ -12,6 +12,17 @@ body {
 	user-select: none;
 }
 
+:root {
+	--junk-color: #AAA;
+	--basic-color: white;
+	--fine-color: #62A4DA;
+	--masterwork-color: #1a9306;
+	--rare-color: #fcd00b;
+	--exotic-color: #ffa405;
+	--ascended-color: #fb3e8d;
+	--legendary-color: #4C139D;
+}
+
 a {
 	color: rgb(0,100,200);
 	text-decoration: none;
