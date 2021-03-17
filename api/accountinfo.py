@@ -17,7 +17,7 @@ def get_characters(token):
 
     result = {}
     for character in characters:
-        explicit_eq = [(piece['slot'], {'stats': piece['stats']['attributes'], 'info': piece, 'icon': item_info[piece['id']]['icon'], 'rarity': item_info[piece['id']].get('rarity', None), 'adj': item_info[piece['id']]['details'].get('attribute_adjustment', None)}) for piece in character['equipment'] if 'stats' in piece]
+        explicit_eq = [(piece['slot'], {'stats': piece['stats']['attributes'], 'info': piece, 'icon': item_info[piece['id']]['icon'], 'rarity': item_info[piece['id']].get('rarity', None), 'adj': item_info[piece['id']]['details'].get('attribute_adjustment', None), 'spread': piece['stats']['id']}) for piece in character['equipment'] if 'stats' in piece]
 
         def get_ar(piece):
             ar = 0
@@ -28,7 +28,7 @@ def get_characters(token):
             return ar
 
         implicit_stats_items = [piece for piece in character['equipment'] if 'stats' not in piece]
-        implicit_eq = [(piece['slot'], {'stats': {attrs['attribute']: attrs['modifier'] for attrs in item_info[piece['id']]['details']['infix_upgrade']['attributes']}, 'info': piece, 'icon': item_info[piece['id']]['icon'], 'rarity': item_info[piece['id']].get('rarity', None), 'adj': item_info[piece['id']]['details'].get('attribute_adjustment', None)}) for piece in implicit_stats_items if 'infix_upgrade' in item_info[piece['id']]['details']]
+        implicit_eq = [(piece['slot'], {'stats': {attrs['attribute']: attrs['modifier'] for attrs in item_info[piece['id']]['details']['infix_upgrade']['attributes']}, 'info': piece, 'icon': item_info[piece['id']]['icon'], 'rarity': item_info[piece['id']].get('rarity', None), 'adj': item_info[piece['id']]['details'].get('attribute_adjustment', None), 'spread': item_info[piece['id']]['details']['infix_upgrade']['id']}) for piece in implicit_stats_items if 'infix_upgrade' in item_info[piece['id']]['details']]
         
         eq = []
         for slot, piece in [*explicit_eq, *implicit_eq]:
