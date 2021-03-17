@@ -14,10 +14,11 @@ def get_characters(token):
     characters = api('characters', ids='all', access_token=token)
     item_ids = set(chain(*[[piece['id'], *piece.get('upgrades', []), *piece.get('infusions', [])] for char in characters for piece in char['equipment']]))
     item_info = dict(zip(item_ids, api('items', ids=','.join(map(str, item_ids)))))
+    twohanders = ['Greatsword', 'Hammer', 'LongBow', 'Rifle', 'ShortBow', 'Staff']
 
     result = {}
     for character in characters:
-        explicit_eq = [(piece['slot'], {'stats': piece['stats']['attributes'], 'info': piece, 'icon': item_info[piece['id']]['icon'], 'rarity': item_info[piece['id']].get('rarity', None), 'adj': item_info[piece['id']]['details'].get('attribute_adjustment', None), 'spread': piece['stats']['id']}) for piece in character['equipment'] if 'stats' in piece]
+        explicit_eq = [(piece['slot'], {'stats': piece['stats']['attributes'], 'info': piece, 'icon': item_info[piece['id']]['icon'], 'rarity': item_info[piece['id']].get('rarity', None), 'adj': item_info[piece['id']]['details'].get('attribute_adjustment', None), 'spread': piece['stats']['id'], '2h': (item_info[piece['id']]['details']['type'] in twohanders)}) for piece in character['equipment'] if 'stats' in piece]
 
         def get_ar(piece):
             ar = 0
