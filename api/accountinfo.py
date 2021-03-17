@@ -17,7 +17,7 @@ def get_characters(token):
 
     result = {}
     for character in characters:
-        explicit_eq = [(piece['slot'], {'stats': piece['stats']['attributes'], 'info': piece, 'icon': item_info[piece['id']]['icon'], 'rarity': item_info[piece['id']].get('rarity', None), 'adj': item_info[piece['id']].get('attribute_adjustment', None)}) for piece in character['equipment'] if 'stats' in piece]
+        explicit_eq = [(piece['slot'], {'stats': piece['stats']['attributes'], 'info': piece, 'icon': item_info[piece['id']]['icon'], 'rarity': item_info[piece['id']].get('rarity', None), 'adj': item_info[piece['id']]['details'].get('attribute_adjustment', None)}) for piece in character['equipment'] if 'stats' in piece]
 
         def get_ar(piece):
             ar = 0
