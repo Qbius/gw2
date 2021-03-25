@@ -13,7 +13,7 @@ def api(endpoint, **kwargs):
 def get_fractal_info(token):
     account = api('account', access_token=token)
     initiate, adept, expert, master  = api('account/achievements', ids='2965,2894,2217,2415', access_token=token)
-    done = [*map(lambda n: n, initiate['bits']), *map(lambda n: 25 + n, adept['bits']), *map(lambda n: 50 + n, expert['bits']), *map(lambda n: 75 + n, master['bits'])]
+    done = [*map(lambda n: n, range(0, 25) if initiate['done'] else initiate['bits']), *map(lambda n: 25 + n, range(0, 25) if adept['done'] else adept['bits']), *map(lambda n: 50 + n, range(0, 25) if expert['done'] else expert['bits']), *map(lambda n: 75 + n, range(0, 25) if master['done'] else master['bits'])]
     not_done = [i + 1 for i in range(100) if i not in done]
     return {'level': account['fractal_level'], 'missing': not_done}
 
