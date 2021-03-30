@@ -1,7 +1,6 @@
 <script>
     import * as skins from '../examples/skins.json';
     import * as itemstats from '../examples/itemstats.json';
-import App from '../App.svelte';
 
     export let item_slot;
     export let direction = 'right';

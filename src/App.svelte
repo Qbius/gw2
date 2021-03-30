@@ -5,37 +5,49 @@
 	import Eq from './Eq/Eq.svelte';
 
 	let token = '';
+	let token_input = '';
+
+	let dailies_offset = 0;
+	
 </script>
 
 <main>
 	<div class="bg-wrap"></div>
-	{#await wait_for_dailies()}
-		<h1>Loading...</h1>
-	{:then dailies}
-		<div class="separator">
-			{#await wait_for_fractal_info(token)}
-				<Dailies {dailies}/>
-			{:then fractal_info}
-				<span style="margin-top: 5px; margin-left: 5px; text-shadow: 0px 0px 3px black, 0 0 1em black, 0 0 0.2em black; font-size: 32px; color: white; align-self: flex-start; justify-self: flex-start;">Fractal level {fractal_info.level}</span>
-				<Dailies {dailies} {fractal_info}/>
-			{:catch}
-				<Dailies {dailies}/>	
-			{/await}
+	<!-- Header for settings etc. disabled for now
+	<div id="header">
+		<img alt="" src="/bg.png" type="password" style="position: absolute; z-index: -1; width: 100%; height: 100%; filter: contrast(200%) hue-rotate(25deg);">
+		{#await wait_for_fractal_info(token)}
+			<div/>
+		{:then fractal_info}
+			<span style="justify-self: flex-start; margin-left: 8px; color: white; text-shadow: 0px 0px 3px black, 0 0 1em black, 0 0 0.2em black;">Fractal level {fractal_info.level}</span>
+		{/await}
+		<div style="display: flex;">
+			<input bind:value={token_input} style="font-size: 8px; width: 400px; justify-self: flex-end;">
+			<button style="border-radius: 5px; font-size: 10px;">SUBMIT</button>
 		</div>
-		<div class="separator">
-			<input bind:value={token} style="width: 400px; justify-self: flex-start;">
-			<Breakdown {dailies}/>
-		</div>
-		<div class="separator">
-			{#await wait_for_account_info(token)}
-				<Eq/>
-			{:then account_info}
-				<Eq {account_info}/>
-			{:catch}	
-				<Eq/>
-			{/await}
-		</div>
-	{/await}
+	</div>
+	-->
+	<div style="flex: 1; display: flex;">
+		{#await wait_for_dailies()}
+			<h1>Loading...</h1>
+		{:then dailies}
+			<div class="separator">
+				<Dailies {dailies} bind:dailies_offset={dailies_offset}/>
+			</div>
+			<div class="separator">
+				<Breakdown {dailies} bind:dailies_offset={dailies_offset}/>
+			</div>
+			<!-- Equipment info, disabled for now
+			<div class="separator">
+				{#await wait_for_account_info(token)}
+					<div/>
+				{:then account_info}
+					<Eq {account_info}/>
+				{/await}
+			</div>
+			-->
+		{/await}
+	</div>
 </main>
 
 <style>
@@ -46,8 +58,17 @@
 		margin: 0 auto;
 
 		display: flex;
-		flex-wrap: wrap;
+		flex-direction: column;
 		justify-content: center;
+	}
+
+	#header {
+		width: 100%;
+		height: 25px;
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 	}
 
 	.separator {

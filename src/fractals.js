@@ -24,7 +24,7 @@ export const all = {
     "Volcanic": [1, 19, 28, 52, 92],
 };
 
-const daily = [
+export const daily = [
     ["Underground Facility", "Urban Battleground", "Sunqua Peak"],
     ["Aetherblade", "Chaos", "Nightmare"],
     ["Cliffside", "Molten Boss", "Siren's Reef"],
@@ -42,7 +42,7 @@ const daily = [
     ["Snowblind", "Thaumanova Reactor", "Aquatic Ruins"],
 ];
 
-const recommended = [
+export const recommended = [
     [11, 39, 59],
     [18, 27, 64],
     [4, 30, 58],

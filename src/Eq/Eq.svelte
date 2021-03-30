@@ -14,42 +14,40 @@
 
 <div class="component">
     <div id="bg-wrap"/>
-    {#if account_info}
-        <div id="header">
-            <select bind:value={selected_character}>
-                {#each Object.keys(account_info).sort() as name}
-                    <option value={name}>
-                        {name}
-                    </option>
-                {/each}
-            </select>
-        </div>
-        <div style="position: relative; width: 320px; height: 600px;">
-            {#each Object.keys(account_info) as name}
-            <div style={(name !== selected_character) ? 'display: none;' : ''} id="split">
-                <div class="eq-segment">
-                    {#each left_split as item_slot}
-                        <Eq_slot style="align-self: flex-end;" direction="left" {item_slot} bind:stat_aggregator={stat_aggregator[name]} character_info={account_info[name]}/>
-                    {/each}
-                    <Eq_slot style="align-self: flex-start;" direction="right" item_slot="WeaponA1" bind:stat_aggregator={stat_aggregator[name]} character_info={account_info[name]}/>
-                    <Eq_slot style="align-self: flex-start;" direction="right" item_slot="WeaponA2" bind:stat_aggregator={stat_aggregator[name]} character_info={account_info[name]}/>
-                    <Scoreboard slots={[...left_split, ...right_split, 'WeaponA1', 'WeaponA2']} stat_aggregator={stat_aggregator[name]} character_info={account_info[name]}/>
-                </div>
-                <div class="eq-segment">
-                    {#each right_split as item_slot}
-                    <Eq_slot is_trinket style="align-self: flex-start;" direction="right" {item_slot} bind:stat_aggregator={stat_aggregator[name]} character_info={account_info[name]}/>
-                    {/each}
-                    <Eq_slot style="align-self: flex-end;" direction="left" item_slot="WeaponB1" bind:stat_aggregator={stat_aggregator[name]} character_info={account_info[name]}/>
-                    <Eq_slot style="align-self: flex-end;" direction="left" item_slot="WeaponB2" bind:stat_aggregator={stat_aggregator[name]} character_info={account_info[name]}/>
-                    <Scoreboard slots={[...left_split, ...right_split, 'WeaponB1', 'WeaponB2']} stat_aggregator={stat_aggregator[name]} character_info={account_info[name]}/>
-                </div>
-            </div>
+    <div id="header">
+        <select bind:value={selected_character}>
+            {#each Object.keys(account_info).sort() as name}
+                <option value={name}>
+                    {name}
+                </option>
             {/each}
+        </select>
+    </div>
+    <div style="position: relative; width: 320px; height: 600px;">
+        {#each Object.keys(account_info) as name}
+        <div style={(name !== selected_character) ? 'display: none;' : ''} id="split">
+            <div class="eq-segment">
+                {#each left_split as item_slot}
+                    <Eq_slot style="align-self: flex-end;" direction="left" {item_slot} bind:stat_aggregator={stat_aggregator[name]} character_info={account_info[name]}/>
+                {/each}
+                <Eq_slot style="align-self: flex-start;" direction="right" item_slot="WeaponA1" bind:stat_aggregator={stat_aggregator[name]} character_info={account_info[name]}/>
+                <Eq_slot style="align-self: flex-start;" direction="right" item_slot="WeaponA2" bind:stat_aggregator={stat_aggregator[name]} character_info={account_info[name]}/>
+                <Scoreboard slots={[...left_split, ...right_split, 'WeaponA1', 'WeaponA2']} stat_aggregator={stat_aggregator[name]} character_info={account_info[name]}/>
+            </div>
+            <div class="eq-segment">
+                {#each right_split as item_slot}
+                <Eq_slot is_trinket style="align-self: flex-start;" direction="right" {item_slot} bind:stat_aggregator={stat_aggregator[name]} character_info={account_info[name]}/>
+                {/each}
+                <Eq_slot style="align-self: flex-end;" direction="left" item_slot="WeaponB1" bind:stat_aggregator={stat_aggregator[name]} character_info={account_info[name]}/>
+                <Eq_slot style="align-self: flex-end;" direction="left" item_slot="WeaponB2" bind:stat_aggregator={stat_aggregator[name]} character_info={account_info[name]}/>
+                <Scoreboard slots={[...left_split, ...right_split, 'WeaponB1', 'WeaponB2']} stat_aggregator={stat_aggregator[name]} character_info={account_info[name]}/>
+            </div>
         </div>
-        <div id="footer">
+        {/each}
+    </div>
+    <div id="footer">
 
-        </div>
-    {/if}
+    </div>
 </div>
 
 <style>

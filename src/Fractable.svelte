@@ -1,6 +1,4 @@
 <script>
-    import App from './App.svelte';
-    import Breakdown from './Breakdown.svelte';
     import {all, tier_from_scale} from './fractals';
 
     export let dailies;
