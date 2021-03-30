@@ -1,15 +1,23 @@
 <script>
-    import {minimum_ar, all, name_by_scale, tier_from_scale, combined_rewards} from './fractals'
+    import {daily, recommended, minimum_ar, all, name_by_scale, tier_from_scale, combined_rewards} from './fractals'
 
     export let dailies;
-    
-    $: names = dailies.names;
-    $: scales = dailies.scales;
+    export let dailies_offset;
+
+    function modulo(number, offset) {
+        const res = number % offset;
+        return (res < 0) ? res + offset : res;
+    }
+
+    $: found_index = daily.findIndex(day => day.sort().every((fractal, index) => fractal === dailies.names.sort()[index]));
+    $: proper_dailies = {names: daily[modulo(found_index + dailies_offset, daily.length)], scales: recommended[modulo(found_index + dailies_offset, daily.length)]};
+    $: names = proper_dailies.names;
+    $: scales = proper_dailies.scales;
     $: selected = [...names, ...scales];
     $: breakpoints = Array.from(new Set(selected.map(f => (typeof f === 'string') ? all[f] : f).flat().map(minimum_ar))).sort((a, b) => a - b);
     $: breakdown = breakpoints.map(breakpoint => [breakpoint, selected.map(f => (typeof f === 'string') ? JSON.parse(JSON.stringify(all[f])).reverse().find(s => minimum_ar(s) <= breakpoint) : ((minimum_ar(f) <= breakpoint) ? f : undefined))]);
     $: heavy_breakpoints = [...Array(4).keys()].map(i => Math.max(...[...names.map(n => minimum_ar(all[n].find(s => tier_from_scale(s) === (i + 1)))), ...scales.filter(s => tier_from_scale(s) <= (i + 1)).map(minimum_ar)]));
-    $: allrews = breakdown.map(([_, scales]) => combined_rewards(scales, dailies));
+    $: allrews = breakdown.map(([_, scales]) => combined_rewards(scales, proper_dailies));
 
 </script>
 

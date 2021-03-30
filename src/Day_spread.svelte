@@ -10,7 +10,7 @@
         return (res < 0) ? res + offset : res;
     }
 
-    $: proper_dailies = {names: daily[daily_index], scales: recommended[daily_index]}
+    $: proper_dailies = {names: daily[daily_index], scales: recommended[daily_index]};
     $: previous_dailies = {names: daily[modulo(daily_index - 1, daily.length)], scales: recommended[modulo(daily_index - 1, recommended.length)]};
     $: next_dailies = {names: daily[modulo(daily_index + 1, daily.length)], scales: recommended[modulo(daily_index + 1, recommended.length)]};
 

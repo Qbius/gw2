@@ -16,7 +16,7 @@
 
 <div class="component">
     {#each [...Array(daily.length).keys()] as daily_index}
-    <div style={(daily_index === (modulo(found_index + dailies_offset, daily.length))) ? '' : 'display: none;'}>
+    <div style={ (daily_index === modulo(found_index + dailies_offset, daily.length)) ? '' : 'display: none;'}>
         <Day_spread {daily_index} bind:dailies_offset={dailies_offset}/>
     </div>
     {/each}
