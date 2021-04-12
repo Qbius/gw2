@@ -28,11 +28,11 @@
         {/if}
     </div>
     <div style="margin-top: 10px; display: flex; justify-content: space-evenly;">
-        <div on:click={() => dailies_offset -= 1} class="daychange">
+        <div on:mousedown={() => dailies_offset -= 1} class="daychange">
             <span class="daychange-text">Previous day</span>
             <div class="daychange-list"><Daily_list dailies={previous_dailies} size_coeff={0.4}/></div>
         </div>
-        <div on:click={() => dailies_offset += 1} class="daychange">
+        <div on:mousedown={() => dailies_offset += 1} class="daychange">
             <span class="daychange-text">Next day</span>
             <div class="daychange-list"><Daily_list dailies={next_dailies} size_coeff={0.4}/></div>
         </div>
