@@ -62,15 +62,6 @@
 		justify-content: center;
 	}
 
-	#header {
-		width: 100%;
-		height: 25px;
-		position: relative;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-
 	.separator {
 		flex: 1;
 		height: 100%;
