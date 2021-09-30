@@ -27,14 +27,14 @@
 		</div>
 	</div>
 	-->
-	<div style="flex: 1; display: flex;">
+	<div class="main-app" style="flex: 1; display: flex;">
 		{#await wait_for_dailies()}
 			<h1>Loading...</h1>
 		{:then dailies}
 			<div class="separator">
 				<Dailies {dailies} bind:dailies_offset={dailies_offset}/>
 			</div>
-			<div class="separator">
+			<div id="breakdown-div" class="separator">
 				<Breakdown {dailies} bind:dailies_offset={dailies_offset}/>
 			</div>
 			<!-- Equipment info, disabled for now
@@ -96,6 +96,12 @@
 	}
 
 	@media only screen and (max-width: 760px) {
+		.main-app {
+			flex-direction: column;
+		}
 
+		#breakdown-div {
+			display: none;
+		}
 	}
 </style>
