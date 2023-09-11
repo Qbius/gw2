@@ -1,6 +1,6 @@
 <script>
     import Daily_list from './Daily_list.svelte';
-    import {dailies, daily, recommended} from './fractals';
+    import {dailies, daily} from './fractals';
     
     export let dailies_offset;
 
