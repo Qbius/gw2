@@ -6,7 +6,7 @@
 
     function modulo(number, offset) {
         const res = number % offset;
-        return (res < 0) ? res + offset : res;
+        return (res < 0) ? res + offset : res;;
     }
 </script>
 
