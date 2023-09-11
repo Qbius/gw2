@@ -1,16 +1,9 @@
 <script>
-    import {daily, recommended, minimum_ar, all, name_by_scale, tier_from_scale, combined_rewards} from './fractals'
+    import {dailies, minimum_ar, all, name_by_scale, tier_from_scale, combined_rewards} from './fractals'
 
-    export let dailies;
     export let dailies_offset;
 
-    function modulo(number, offset) {
-        const res = number % offset;
-        return (res < 0) ? res + offset : res;
-    }
-
-    $: found_index = daily.findIndex(day => day.sort().every((fractal, index) => fractal === dailies.names.sort()[index]));
-    $: proper_dailies = {names: daily[modulo(found_index + dailies_offset, daily.length)], scales: recommended[modulo(found_index + dailies_offset, daily.length)]};
+    $: proper_dailies = dailies(dailies_offset);
     $: names = proper_dailies.names;
     $: scales = proper_dailies.scales;
     $: selected = [...names, ...scales];

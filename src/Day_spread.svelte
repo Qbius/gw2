@@ -1,8 +1,7 @@
 <script>
     import Daily_list from './Daily_list.svelte';
-    import {daily, recommended} from './fractals';
+    import {dailies, daily, recommended} from './fractals';
     
-    export let daily_index;
     export let dailies_offset;
 
     function modulo(number, offset) {
@@ -10,9 +9,9 @@
         return (res < 0) ? res + offset : res;
     }
 
-    $: proper_dailies = {names: daily[daily_index], scales: recommended[daily_index]};
-    $: previous_dailies = {names: daily[modulo(daily_index - 1, daily.length)], scales: recommended[modulo(daily_index - 1, recommended.length)]};
-    $: next_dailies = {names: daily[modulo(daily_index + 1, daily.length)], scales: recommended[modulo(daily_index + 1, recommended.length)]};
+    $: proper_dailies = dailies(dailies_offset);
+    $: previous_dailies = dailies(modulo(dailies_offset - 1, daily.length));
+    $: next_dailies = dailies(modulo(dailies_offset + 1, daily.length));
 
 </script>
 
